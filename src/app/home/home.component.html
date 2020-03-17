@@ -1,0 +1,27 @@
+
+<div style="padding: 13px;">
+  <mat-spinner *ngIf=" films && films.length === 0"></mat-spinner>
+
+
+    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutGap="25px">
+
+      <mat-card  *ngFor="let film of films; let i = index" fxFlex="0 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%">
+        <mat-card-header>
+            <mat-card-title (click)="showAdicional=i">{{film.title}}</mat-card-title>
+            <mat-card-subtitle>
+                Episode {{film.episode_id}} | Director {{film.director}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content *ngIf="showAdicional==i" [@fadeInOut]>
+            <p>
+                {{film.opening_crawl}}
+            </p>
+            <img style=" width: 100%;" src="assets/giphy.webp" alt="Star Wars | {{film.title}} | Episode {{film.episode_id}}" />
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button [routerLink]="['/characters/',film]" > Characters</button>
+        </mat-card-actions>
+
+    </mat-card>
+  </div>
+</div>
