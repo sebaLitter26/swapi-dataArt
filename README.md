@@ -5,7 +5,11 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Development server
 
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. 
-It has a proxy url redirection to "https://swapi.co" for CORS propouse
+CORS must be allowed. 
+
+## Live production page
+
+https://sebalitter26.github.io/swapi-dataArt/
 
 
 
