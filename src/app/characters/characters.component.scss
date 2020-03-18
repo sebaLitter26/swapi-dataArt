@@ -7,8 +7,8 @@ table {
   width: 100%;
 }
 
-.mat-input-element {
-  caret-color: #99a21f;
+mat-input-element {
+  color: #99a21f;
 }
 
 tr.example-detail-row {
@@ -16,11 +16,11 @@ tr.example-detail-row {
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
-  background: whitesmoke;
+  background: rgb(168, 187, 116);
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
+  background: rgb(168, 187, 116);
 }
 
 .example-element-detail {
@@ -33,4 +33,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-description-attribution {
   opacity: 0.5;
+}
+
+mat-chip-list{
+  width: 60%;
+  padding: 4px;
+}
+
+.film-colum{
+  width: 40%;
 }

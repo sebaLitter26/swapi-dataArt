@@ -3,7 +3,7 @@
   <mat-spinner *ngIf=" films && films.length === 0"></mat-spinner>
 
 
-    <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutGap="25px">
+    <div class="container" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-around center" fxLayoutGap="25px">
 
       <mat-card  *ngFor="let film of films; let i = index" fxFlex="0 1 calc(33.3% - 32px)" fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%">
         <mat-card-header>
