@@ -11,22 +11,18 @@ import { Character, Film } from '../models/index.models';
 import { mergeMap, map, switchMap, tap, concatAll   } from 'rxjs/operators';
 import { Observable, of , forkJoin, Subscription } from 'rxjs';
 
-import { trigger, style, animate, transition } from '@angular/animations';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-characters',
   templateUrl: './characters.component.html',
   styleUrls: ['./characters.component.scss'],
   animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [
-        style({ opacity: 0 }),
-        animate(500, style({ opacity: 1 }))
-      ]),
-      transition(':leave', [
-        animate(500, style({ opacity: 0 }))
-      ])
-    ])
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
   ],
 })
 export class charactersComponent implements OnInit, OnDestroy {
@@ -36,10 +32,11 @@ export class charactersComponent implements OnInit, OnDestroy {
   characters: Character[] ;
   film$: any ;
   film: Film ;
-  showAdicional: number = 0;
+  showFilms: any[] = [];
 
-  displayedColumns: string[] = ['name', 'eye_color', 'gender'];
+  displayedColumns: string[] = ['name', 'eye_color', 'gender','films'];
   dataSource: MatTableDataSource<Character>;
+  expandedElement: any | null;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -54,17 +51,38 @@ export class charactersComponent implements OnInit, OnDestroy {
     this.film$ = this.activatedRoute.snapshot.params;
     const people:string[] = this.activatedRoute.snapshot.params.characters.split(',') ;
 
-
-    this.character$Subscription = this.getArrayRequest(people).subscribe(results => {
-
-      this.characters = results;
-      this.dataSource = new MatTableDataSource(this.characters);
-      console.log(this.characters);
-    });
-
-    this.dataSource.paginator = this.paginator;
+    let peopleAux: any[] =[];
+    this.character$Subscription = this.getArrayRequest(people).subscribe((results:any) => {
+      peopleAux.push(results);
+    },
+    (error)=>console.log("onError", error),
+    () => {
+      //this.characters = peopleAux;
+      this.dataSource = new MatTableDataSource(peopleAux);
+      this.dataSource.paginator = this.paginator;
+      console.log("onComplete", this.dataSource);
+    }
+    );
 
   }
+
+  expandFilmDetails(character){
+
+    let filmsAux: any[] =[];
+    this.character$Subscription = this.getArrayRequest(character.films).subscribe((results:any) => {
+      filmsAux.push(results);
+    },
+    (error)=>console.log("onError", error),
+    () => {
+      //this.characters = peopleAux;
+
+      console.log("onComplete", filmsAux);
+      this.showFilms = filmsAux;
+    }
+    );
+
+  }
+
 
   getArrayRequest(arrayRequestString: string[]): Observable<any> {
 
